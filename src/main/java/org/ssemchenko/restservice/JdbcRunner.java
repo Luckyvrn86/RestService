@@ -1,16 +1,15 @@
 package org.ssemchenko.restservice;
 
-import com.mysql.jdbc.Driver;
-import org.ssemchenko.restservice.util.ConnectionManager;
-
+import org.ssemchenko.restservice.db.ConnectionManager;
+import org.ssemchenko.restservice.db.ConnectionManagerImpl;
 import java.sql.Connection;
-
 import java.sql.SQLException;
 
 public class JdbcRunner {
 
     public static void main(String[] args) throws SQLException {
-        try (Connection connection = ConnectionManager.open()) {
+        ConnectionManager connectionManager = new ConnectionManagerImpl();
+        try (Connection connection = connectionManager.getConnection()) {
             System.out.println(connection.getTransactionIsolation());
         }
     }
