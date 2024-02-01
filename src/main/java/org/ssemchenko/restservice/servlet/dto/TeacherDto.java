@@ -1,4 +1,4 @@
 package org.ssemchenko.restservice.servlet.dto;
 
-public class IncomingDto {
+public class TeacherDto {
 }

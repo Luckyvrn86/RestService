@@ -1,10 +1,10 @@
 package org.ssemchenko.restservice.servlet.mapper;
 
 import org.ssemchenko.restservice.model.Faculty;
-import org.ssemchenko.restservice.servlet.dto.IncomingDto;
-import org.ssemchenko.restservice.servlet.dto.OutGoingDto;
+import org.ssemchenko.restservice.servlet.dto.FacultyDto;
+import org.ssemchenko.restservice.servlet.dto.StudentDto;
 
 public interface FacultyDtomapper {
-    Faculty map(IncomingDto incomingDto);
-    OutGoingDto map(Faculty faculty);
+    Faculty map(FacultyDto facultyDto);
+    FacultyDto map(Faculty faculty);
 }

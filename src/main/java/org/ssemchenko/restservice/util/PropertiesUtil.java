@@ -2,6 +2,7 @@ package org.ssemchenko.restservice.util;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public final class PropertiesUtil {
@@ -12,19 +13,19 @@ public final class PropertiesUtil {
         loadProperties();
     }
 
-    private PropertiesUtil() {
-    }
-
-    public static String get(String key) {
-        return PROPERTIES.getProperty(key);
-    }
     private static void loadProperties() {
 
-        try {
-            PROPERTIES.load(new FileReader("src/main/resources/application.properties"));
+        try (var inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
+            PROPERTIES.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private PropertiesUtil() {
+    }
+    public static String get(String key) {
+        return PROPERTIES.getProperty(key);
     }
 }

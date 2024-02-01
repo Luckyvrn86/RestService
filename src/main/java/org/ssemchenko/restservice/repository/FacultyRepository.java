@@ -4,5 +4,5 @@ import org.ssemchenko.restservice.model.Faculty;
 
 import java.util.Optional;
 
-public interface FacultyRepository extends Repository<Optional<Faculty>, Integer> {
+public interface FacultyRepository extends Repository<Faculty, Integer> {
 }

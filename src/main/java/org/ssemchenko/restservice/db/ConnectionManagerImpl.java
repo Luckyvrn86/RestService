@@ -12,6 +12,18 @@ public final class ConnectionManagerImpl implements ConnectionManager{
     public static final String USERNAME_KEY = PropertiesUtil.get("db.username");
     public static final String PASSWORD_KEY = PropertiesUtil.get("db.password");
 
+    static {
+        loadDriver();
+    }
+
+    private static void loadDriver() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConnectionManagerImpl(){
     }
     @Override

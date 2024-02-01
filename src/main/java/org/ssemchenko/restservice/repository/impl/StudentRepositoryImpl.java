@@ -5,6 +5,8 @@ import org.ssemchenko.restservice.model.Student;
 import org.ssemchenko.restservice.repository.StudentRepository;
 import org.ssemchenko.restservice.repository.mapper.StudentResultSetMapper;
 
+import java.util.List;
+
 public class StudentRepositoryImpl implements StudentRepository {
     private ConnectionManager connectionManager;
     private StudentResultSetMapper studentResultSetMapper;
@@ -19,7 +21,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public Student findAll() {
+    public List<Student> findAll() {
         return null;
     }
 

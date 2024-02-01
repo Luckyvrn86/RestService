@@ -1,17 +1,19 @@
 package org.ssemchenko.restservice.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Faculty {
     private int id;
     private String name;
     private List<Student> students;
-    private List<Teacher> teachers;
 
-    public Faculty(String name, List<Student> students, List<Teacher> teachers) {
+    public Faculty(String name, List<Student> students) {
         this.name = name;
         this.students = students;
-        this.teachers = teachers;
+    }
+
+    public Faculty() {
     }
 
     public int getId() {
@@ -26,8 +28,8 @@ public class Faculty {
         return students;
     }
 
-    public List<Teacher> getTeachers() {
-        return teachers;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -38,7 +40,16 @@ public class Faculty {
         this.students = students;
     }
 
-    public void setTeachers(List<Teacher> teachers) {
-        this.teachers = teachers;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Faculty faculty = (Faculty) o;
+        return id == faculty.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
