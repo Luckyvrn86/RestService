@@ -6,12 +6,15 @@ import java.util.Objects;
 public class Student {
     private int id;
     private String name;
-    private Faculty faculty;
+    private int facultyId;
     private List<Teacher> teachers;
 
-    public Student(String name, Faculty faculty, List<Teacher> teachers) {
+    public Student() {
+    }
+
+    public Student(String name, int facultyId, List<Teacher> teachers) {
         this.name = name;
-        this.faculty = faculty;
+        this.facultyId = facultyId;
         this.teachers = teachers;
     }
 
@@ -23,8 +26,8 @@ public class Student {
         return name;
     }
 
-    public Faculty getFaculty() {
-        return faculty;
+    public int getFacultyId() {
+        return facultyId;
     }
 
     public List<Teacher> getTeachers() {
@@ -39,8 +42,8 @@ public class Student {
         this.name = name;
     }
 
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
+    public void setFacultyId(int facultyId) {
+        this.facultyId = facultyId;
     }
 
     public void setTeachers(List<Teacher> teachers) {

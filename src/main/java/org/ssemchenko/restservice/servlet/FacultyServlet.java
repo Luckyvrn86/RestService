@@ -28,7 +28,7 @@ public class FacultyServlet extends HttpServlet {
                 writer.write("""
                         <li>
                             <a href="/students?facultyId=%d">%s</a>
-                        >/li>
+                        </li>
                         """.formatted(facultyDto.getId(), facultyDto.getName()));
             });
             writer.write("/<ul>");

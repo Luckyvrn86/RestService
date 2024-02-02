@@ -11,8 +11,16 @@ public class JdbcRunner {
 
     public static void main(String[] args) throws SQLException {
         ConnectionManagerImpl connectionManager = new ConnectionManagerImpl();
-        try (Connection connection = connectionManager.getConnection()) {
-            System.out.println(connection.getTransactionIsolation());
+        String sql = "select * from university.faculty";
+        try (var connection = connectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(sql)) {
+            var resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getInt("id") + " - " + resultSet.getString("name"));
+                System.out.println("-------------");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }

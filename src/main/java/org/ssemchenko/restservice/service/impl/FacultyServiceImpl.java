@@ -4,12 +4,9 @@ import org.ssemchenko.restservice.model.Faculty;
 import org.ssemchenko.restservice.repository.impl.FacultyRepositoryImpl;
 import org.ssemchenko.restservice.service.FacultyService;
 import org.ssemchenko.restservice.servlet.dto.FacultyDto;
-import org.ssemchenko.restservice.servlet.mapper.FacultyDtomapper;
-import org.ssemchenko.restservice.servlet.mapper.impl.FacultyDtomapperImpl;
+import org.ssemchenko.restservice.servlet.mapper.FacultyDtomapperImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,7 +25,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public boolean deleteById(int id) {
-        return false;
+        return facultyRepository.deleteById(id);
     }
 
     @Override
@@ -40,7 +37,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty save(Faculty faculty) {
-        return null;
+        return facultyRepository.save(faculty);
     }
 
     public static FacultyServiceImpl getInstance(){
