@@ -1,9 +1,7 @@
 package org.ssemchenko.restservice.repository.impl;
 
-import org.ssemchenko.restservice.db.ConnectionManager;
 import org.ssemchenko.restservice.db.ConnectionManagerImpl;
 import org.ssemchenko.restservice.model.Faculty;
-import org.ssemchenko.restservice.model.Student;
 import org.ssemchenko.restservice.repository.FacultyRepository;
 import org.ssemchenko.restservice.repository.mapper.FacultyResultSetMapper;
 import org.ssemchenko.restservice.repository.mapper.StudentResultSetMapper;
@@ -19,7 +17,7 @@ public class FacultyRepositoryImpl implements FacultyRepository {
     private ConnectionManagerImpl connectionManager = new ConnectionManagerImpl();
     private FacultyResultSetMapper resultMapper = new FacultyResultSetMapperImpl();
     private StudentResultSetMapper studentMapper = new StudentResultSetMapperImpl();
-    private String name = "university.faculty";
+    private String tableName = "university.faculty";
 
     private FacultyRepositoryImpl() {
     }
@@ -27,11 +25,12 @@ public class FacultyRepositoryImpl implements FacultyRepository {
     @Override
     public Faculty findById(Integer id) {
         Faculty result;
-        String sql = SqlString.FIND_BY_ID.formatted(name);
+        String sql = SqlString.FIND_BY_ID.formatted(tableName);
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             var resultSet = preparedStatement.executeQuery();
+            resultSet.next();
             result = resultMapper.map(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -41,7 +40,7 @@ public class FacultyRepositoryImpl implements FacultyRepository {
 
     @Override
     public boolean deleteById(Integer id) {
-        String sql = SqlString.DELETE_BY_ID.formatted(name);
+        String sql = SqlString.DELETE_BY_ID.formatted(tableName);
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
@@ -49,7 +48,6 @@ public class FacultyRepositoryImpl implements FacultyRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -91,12 +89,17 @@ public class FacultyRepositoryImpl implements FacultyRepository {
 
     @Override
     public Faculty save(Faculty faculty) {
-        String sql = "insert into " + name + " (name) values (" + faculty.getName() + ")";
+        String sql = """
+            INSERT INTO university.faculty (name) VALUES (?);
+            """;
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, faculty.getName());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) faculty.setId(generatedKeys.getInt("id"));
+            if(generatedKeys.next()){
+                faculty.setId(generatedKeys.getInt(1));
+            } else throw new RuntimeException();
             return faculty;
         } catch (SQLException e) {
             throw new RuntimeException(e);

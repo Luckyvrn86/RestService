@@ -3,12 +3,15 @@ package org.ssemchenko.restservice.servlet.dto;
 import java.util.Objects;
 
 public class FacultyDto {
-    private final int id;
-    private final String name;
+    private int id;
+    private String name;
 
     public FacultyDto(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public FacultyDto() {
     }
 
     public int getId() {
@@ -17,6 +20,14 @@ public class FacultyDto {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -30,5 +41,10 @@ public class FacultyDto {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + name;
     }
 }

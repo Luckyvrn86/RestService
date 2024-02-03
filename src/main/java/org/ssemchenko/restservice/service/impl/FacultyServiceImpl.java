@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepositoryImpl facultyRepository = FacultyRepositoryImpl.getInstance();
     private final FacultyDtomapperImpl facultyDtomapper = new FacultyDtomapperImpl();
-    public static final FacultyServiceImpl INSTANCE = new FacultyServiceImpl();
+    private static final FacultyServiceImpl INSTANCE = new FacultyServiceImpl();
 
     private FacultyServiceImpl() {
     }

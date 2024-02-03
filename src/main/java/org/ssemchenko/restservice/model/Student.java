@@ -12,10 +12,9 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, int facultyId, List<Teacher> teachers) {
+    public Student(String name, int facultyId) {
         this.name = name;
         this.facultyId = facultyId;
-        this.teachers = teachers;
     }
 
     public int getId() {

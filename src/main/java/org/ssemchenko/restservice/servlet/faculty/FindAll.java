@@ -1,4 +1,4 @@
-package org.ssemchenko.restservice.servlet;
+package org.ssemchenko.restservice.servlet.faculty;
 
 
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @WebServlet("/facultys")
-public class FacultyServlet extends HttpServlet {
+public class FindAll extends HttpServlet {
     private final FacultyService facultyService = FacultyServiceImpl.getInstance();
 
     @Override
@@ -27,12 +27,11 @@ public class FacultyServlet extends HttpServlet {
             facultyService.findAll().forEach(facultyDto -> {
                 writer.write("""
                         <li>
-                            <a href="/students?facultyId=%d">%s</a>
+                            <a href="/students?facultyId=%s">%s</a>
                         </li>
                         """.formatted(facultyDto.getId(), facultyDto.getName()));
             });
             writer.write("/<ul>");
-
         }
     }
 }

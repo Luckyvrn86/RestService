@@ -15,6 +15,7 @@ public class StudentResultSetMapperImpl implements StudentResultSetMapper {
             student.setId(resultSet.getInt("id"));
             student.setName(resultSet.getString("name"));
             student.setFacultyId(resultSet.getInt("faculty"));
+            student.setTeachers(new ArrayList<>());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
