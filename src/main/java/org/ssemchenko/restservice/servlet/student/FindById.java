@@ -27,7 +27,7 @@ public class FindById extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         var id = Integer.valueOf(req.getParameter("id"));
-        StudentDto studentDto = mapper.map(studentService.findById(id));
+        StudentDto studentDto = studentService.findById(id);
         String facultyName = facultyService.findById(studentDto.getFacultyId()).getName();
         try (var writer = resp.getWriter()) {
             writer.write("<h4>");

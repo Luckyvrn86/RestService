@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 public class Save extends HttpServlet {
     private final FacultyService facultyService = FacultyServiceImpl.getInstance();
     private final FacultyDtomapperImpl mapper = new FacultyDtomapperImpl();
-    private FacultyDto facultyDto = new FacultyDto();
+    private final FacultyDto facultyDto = new FacultyDto();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

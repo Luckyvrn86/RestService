@@ -11,16 +11,17 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class FacultyServiceImpl implements FacultyService {
-    private final FacultyRepositoryImpl facultyRepository = FacultyRepositoryImpl.getInstance();
+    private FacultyRepositoryImpl facultyRepository = FacultyRepositoryImpl.getInstance();
     private final FacultyDtomapperImpl facultyDtomapper = new FacultyDtomapperImpl();
     private static final FacultyServiceImpl INSTANCE = new FacultyServiceImpl();
 
     private FacultyServiceImpl() {
     }
 
+
     @Override
-    public Faculty findById(int id) {
-        return facultyRepository.findById(id);
+    public FacultyDto findById(int id) {
+        return facultyDtomapper.map(facultyRepository.findById(id));
     }
 
     @Override
@@ -36,11 +37,15 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty save(Faculty faculty) {
-        return facultyRepository.save(faculty);
+    public FacultyDto save(Faculty faculty) {
+        return facultyDtomapper.map(facultyRepository.save(faculty));
     }
 
     public static FacultyServiceImpl getInstance(){
         return INSTANCE;
+    }
+
+    public void setFacultyRepository(FacultyRepositoryImpl facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
 }

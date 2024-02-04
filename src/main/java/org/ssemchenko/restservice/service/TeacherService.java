@@ -7,8 +7,8 @@ import org.ssemchenko.restservice.servlet.dto.TeacherDto;
 import java.util.List;
 
 public interface TeacherService {
-    Teacher save(Teacher teacher);
-    Teacher findById(int id);
+    TeacherDto save(Teacher teacher);
+    TeacherDto findById(int id);
     boolean deleteById(int id);
     List<TeacherDto> findAll();
 

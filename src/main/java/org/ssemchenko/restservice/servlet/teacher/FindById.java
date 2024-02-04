@@ -17,14 +17,13 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/teacherFind")
 public class FindById extends HttpServlet {
     private final TeacherService teacherService = TeacherServiceImpl.getInstance();
-    private final TeacherDtomapper mapper = new TeacherDtomapperImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         var id = Integer.valueOf(req.getParameter("id"));
-        TeacherDto teacherDto = mapper.map(teacherService.findById(id));
+        TeacherDto teacherDto = teacherService.findById(id);
         try (var writer = resp.getWriter()) {
             writer.write("<h4>");
             writer.write(teacherDto.toString());

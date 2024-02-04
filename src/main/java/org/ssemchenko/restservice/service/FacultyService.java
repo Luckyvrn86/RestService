@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface FacultyService {
 
-    Faculty findById(int id);
+    FacultyDto findById(int id);
     boolean deleteById(int id);
     List<FacultyDto> findAll();
-    Faculty save(Faculty faculty);
+    FacultyDto save(Faculty faculty);
 }

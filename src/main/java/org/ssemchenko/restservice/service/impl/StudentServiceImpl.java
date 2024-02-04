@@ -11,15 +11,15 @@ import static java.util.stream.Collectors.toList;
 
 public class StudentServiceImpl implements StudentService {
     private static final StudentServiceImpl INSTANCE = new StudentServiceImpl();
-    private final StudentRepositoryImpl studentRepository = StudentRepositoryImpl.getInstance();
+    private StudentRepositoryImpl studentRepository = StudentRepositoryImpl.getInstance();
     private final StudentDtomapper studentDtomapper = new StudentDtomapperImpl();
 
     private StudentServiceImpl() {
     }
 
     @Override
-    public Student findById(int id) {
-        return studentRepository.findById(id);
+    public StudentDto findById(int id) {
+        return studentDtomapper.map(studentRepository.findById(id));
     }
 
     @Override
@@ -36,8 +36,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student save(Student student) {
-        return studentRepository.save(student);
+    public StudentDto save(Student student) {
+        return studentDtomapper.map(studentRepository.save(student));
     }
     @Override
     public List<StudentDto> findByFacultyId(int facultyId) {
@@ -46,4 +46,8 @@ public class StudentServiceImpl implements StudentService {
                 .collect(toList());
     }
     public static StudentServiceImpl getInstance(){return INSTANCE;}
+
+    public void setStudentRepository(StudentRepositoryImpl studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 }

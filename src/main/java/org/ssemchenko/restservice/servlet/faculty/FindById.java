@@ -25,7 +25,7 @@ public class FindById extends HttpServlet {
         var id = Integer.valueOf(req.getParameter("id"));
         try (var writer = resp.getWriter()) {
             writer.write("<h4>");
-            writer.write(mapper.map(facultyService.findById(id)).toString());
+            writer.write(facultyService.findById(id).toString());
             writer.write("</h4>");
         }
     }

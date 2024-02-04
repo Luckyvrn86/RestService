@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 public class TeacherServiceImpl implements TeacherService {
     private static final TeacherServiceImpl INSTANCE = new TeacherServiceImpl();
-    private final TeacherRepository teacherRepository = TeacherRepositoryImpl.getInstance();
+    private TeacherRepository teacherRepository = TeacherRepositoryImpl.getInstance();
     private final TeacherDtomapper teacherDtomapper = new TeacherDtomapperImpl();
     @Override
-    public Teacher findById(int id) {
-        return teacherRepository.findById(id);
+    public TeacherDto findById(int id) {
+        return teacherDtomapper.map(teacherRepository.findById(id));
     }
 
     @Override
@@ -33,9 +33,12 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher save(Teacher teacher) {
-        return teacherRepository.save(teacher);
+    public TeacherDto save(Teacher teacher) {
+        return teacherDtomapper.map(teacherRepository.save(teacher));
     }
     public static TeacherServiceImpl getInstance() {return INSTANCE;}
 
+    public void setTeacherRepository(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
+    }
 }
