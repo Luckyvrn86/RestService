@@ -7,10 +7,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public final class ConnectionManagerImpl implements ConnectionManager{
-    public static final String URL_KEY = PropertiesUtil.get("db.url");
-    public static final String USERNAME_KEY = PropertiesUtil.get("db.username");
-    public static final String PASSWORD_KEY = PropertiesUtil.get("db.password");
+public class ConnectionManagerImpl implements ConnectionManager{
+    private String url = PropertiesUtil.get("db.url");
+    private String username = PropertiesUtil.get("db.username");
+    private String password = PropertiesUtil.get("db.password");
 
     static {
         loadDriver();
@@ -26,12 +26,25 @@ public final class ConnectionManagerImpl implements ConnectionManager{
 
     public ConnectionManagerImpl(){
     }
+
     @Override
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL_KEY, USERNAME_KEY, PASSWORD_KEY);
+            return DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

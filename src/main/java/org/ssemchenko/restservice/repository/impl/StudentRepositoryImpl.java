@@ -148,6 +148,10 @@ public class StudentRepositoryImpl implements StudentRepository {
         return result;
     }
     public static StudentRepositoryImpl getInstance() {return INSTANCE;}
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 }
 
 

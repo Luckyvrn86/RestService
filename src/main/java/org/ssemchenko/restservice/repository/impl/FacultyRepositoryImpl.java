@@ -108,4 +108,8 @@ public class FacultyRepositoryImpl implements FacultyRepository {
     public static FacultyRepositoryImpl getInstance(){
         return INSTANCE;
     }
+
+    public void setConnectionManager(ConnectionManagerImpl connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 }

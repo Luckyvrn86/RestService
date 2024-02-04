@@ -124,6 +124,10 @@ public class TeacherRepositoryImpl implements TeacherRepository {
         }
     }
     public static TeacherRepositoryImpl getInstance() {return INSTANCE;}
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 }
 
 
