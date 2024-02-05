@@ -14,24 +14,26 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/facultys")
 public class FindAll extends HttpServlet {
-    private final FacultyService facultyService = FacultyServiceImpl.getInstance();
+    private FacultyService facultyService = FacultyServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         try (var writer = resp.getWriter()) {
             writer.write("<h1>Список факультетов:</h1>");
             writer.write("<ul>");
-            facultyService.findAll().forEach(facultyDto -> {
-                writer.write("""
-                        <li>
-                            <a href="/students?facultyId=%s">%s</a>
-                        </li>
-                        """.formatted(facultyDto.getId(), facultyDto.getName()));
-            });
+            facultyService.findAll().forEach(facultyDto -> writer.write("""
+                    <li>
+                        <a href="/students?facultyId=%s">%s</a>
+                    </li>
+                    """.formatted(facultyDto.getId(), facultyDto.getName())));
             writer.write("/<ul>");
         }
+    }
+
+    public void setFacultyService(FacultyService facultyService) {
+        this.facultyService = facultyService;
     }
 }

@@ -10,23 +10,20 @@ import org.ssemchenko.restservice.service.StudentService;
 import org.ssemchenko.restservice.service.impl.FacultyServiceImpl;
 import org.ssemchenko.restservice.service.impl.StudentServiceImpl;
 import org.ssemchenko.restservice.servlet.dto.StudentDto;
-import org.ssemchenko.restservice.servlet.mapper.StudentDtomapper;
-import org.ssemchenko.restservice.servlet.mapper.StudentDtomapperImpl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @WebServlet("/studentFind")
 public class FindById extends HttpServlet {
-    private final StudentService studentService = StudentServiceImpl.getInstance();
-    private final StudentDtomapper mapper = new StudentDtomapperImpl();
-    private final FacultyService facultyService = FacultyServiceImpl.getInstance();
+    private StudentService studentService = StudentServiceImpl.getInstance();
+    private FacultyService facultyService = FacultyServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        var id = Integer.valueOf(req.getParameter("id"));
+        var id = Integer.parseInt(req.getParameter("id"));
         StudentDto studentDto = studentService.findById(id);
         String facultyName = facultyService.findById(studentDto.getFacultyId()).getName();
         try (var writer = resp.getWriter()) {
@@ -34,5 +31,13 @@ public class FindById extends HttpServlet {
             writer.write(studentDto + " " + facultyName + " факультет");
             writer.write("</h4>");
         }
+    }
+
+    public void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    public void setFacultyService(FacultyService facultyService) {
+        this.facultyService = facultyService;
     }
 }

@@ -15,12 +15,12 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/facultySave")
 public class Save extends HttpServlet {
-    private final FacultyService facultyService = FacultyServiceImpl.getInstance();
+    private FacultyService facultyService = FacultyServiceImpl.getInstance();
     private final FacultyDtomapperImpl mapper = new FacultyDtomapperImpl();
     private final FacultyDto facultyDto = new FacultyDto();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         facultyDto.setName(req.getParameter("name"));
@@ -32,5 +32,9 @@ public class Save extends HttpServlet {
         } else try (var writer = resp.getWriter()) {
             writer.write("<h4>Добавление не удалось</h4>");
         }
+    }
+
+    public void setFacultyService(FacultyService facultyService) {
+        this.facultyService = facultyService;
     }
 }

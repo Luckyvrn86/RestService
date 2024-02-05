@@ -13,13 +13,13 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/teacherDelete")
 public class DeleteById extends HttpServlet {
-    private final TeacherService teacherService = TeacherServiceImpl.getInstance();
+    private TeacherService teacherService = TeacherServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        var id = Integer.valueOf(req.getParameter("id"));
+        var id = Integer.parseInt(req.getParameter("id"));
         if (teacherService.deleteById(id)) {
             try (var writer = resp.getWriter()) {
                 writer.write("<h4>Преподаватель удален</h4>");
@@ -29,5 +29,9 @@ public class DeleteById extends HttpServlet {
                 writer.write("<h4>Преподавателя с таким ID не существует</h4>");
             }
         }
+    }
+
+    public void setTeacherService(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 }

@@ -13,23 +13,25 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/teachers")
 public class FindAll extends HttpServlet {
-    private final TeacherService teacherService = TeacherServiceImpl.getInstance();
+    private TeacherService teacherService = TeacherServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try (var writer = resp.getWriter()) {
             writer.write("<h1>Список студентов:</h1>");
             writer.write("<ul>");
-            teacherService.findAll().forEach(teacherDto -> {
-                writer.write("""
-                        <li>
-                            %s. %s
-                        </li>
-                        """.formatted(teacherDto.getId(), teacherDto.getName()));
-            });
+            teacherService.findAll().forEach(teacherDto -> writer.write("""
+                    <li>
+                        %s. %s
+                    </li>
+                    """.formatted(teacherDto.getId(), teacherDto.getName())));
             writer.write("/<ul>");
         }
+    }
+
+    public void setTeacherService(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 }

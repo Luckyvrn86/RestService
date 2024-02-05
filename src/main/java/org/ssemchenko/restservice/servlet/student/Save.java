@@ -16,16 +16,16 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/studentSave")
 public class Save extends HttpServlet {
-    private final StudentService studentService = StudentServiceImpl.getInstance();
+    private StudentService studentService = StudentServiceImpl.getInstance();
     private final StudentDtomapper mapper = new StudentDtomapperImpl();
-    private StudentDto studentDto = new StudentDto();
+    private final StudentDto studentDto = new StudentDto();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         studentDto.setName(req.getParameter("name"));
-        studentDto.setFacultyId(Integer.valueOf(req.getParameter("fid")));
+        studentDto.setFacultyId(Integer.parseInt(req.getParameter("fid")));
         studentDto.setId(studentService.save(mapper.map(studentDto)).getId());
         if (studentDto.getId() != 0) {
             try (var writer = resp.getWriter()) {
@@ -34,5 +34,9 @@ public class Save extends HttpServlet {
         } else try (var writer = resp.getWriter()) {
             writer.write("<h4>Добавление не удалось</h4>");
         }
+    }
+
+    public void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
     }
 }
