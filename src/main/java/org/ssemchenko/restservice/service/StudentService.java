@@ -1,16 +1,12 @@
 package org.ssemchenko.restservice.service;
 
-import org.ssemchenko.restservice.model.Faculty;
-import org.ssemchenko.restservice.model.Student;
-import org.ssemchenko.restservice.servlet.dto.FacultyDto;
-import org.ssemchenko.restservice.servlet.dto.StudentDto;
+import org.ssemchenko.restservice.service.dto.StudentDto;
 
 import java.util.List;
 
 public interface StudentService {
-    StudentDto save(Student student);
+    StudentDto save(StudentDto student);
     List<StudentDto> findAll();
-    boolean deleteById(int id);
+    void deleteById(int id);
     StudentDto findById(int id);
-    List<StudentDto> findByFacultyId(int facultyId);
 }

@@ -1,53 +1,47 @@
 package org.ssemchenko.restservice.service.impl;
 
-import org.ssemchenko.restservice.model.Student;
-import org.ssemchenko.restservice.repository.impl.StudentRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.ssemchenko.restservice.repository.StudentRepository;
 import org.ssemchenko.restservice.service.StudentService;
-import org.ssemchenko.restservice.servlet.dto.StudentDto;
-import org.ssemchenko.restservice.servlet.mapper.StudentDtomapper;
-import org.ssemchenko.restservice.servlet.mapper.StudentDtomapperImpl;
+import org.ssemchenko.restservice.service.dto.StudentDto;
+import org.ssemchenko.restservice.service.mapper.StudentDtomapper;
+
+import javax.transaction.Transactional;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
+@Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
-    private static final StudentServiceImpl INSTANCE = new StudentServiceImpl();
-    private StudentRepositoryImpl studentRepository = StudentRepositoryImpl.getInstance();
-    private final StudentDtomapper studentDtomapper = new StudentDtomapperImpl();
+    private final StudentRepository repository;
+    private final StudentDtomapper mapper;
 
-    private StudentServiceImpl() {
+    @Autowired
+    public StudentServiceImpl(StudentRepository repository, StudentDtomapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public StudentDto findById(int id) {
-        return studentDtomapper.map(studentRepository.findById(id));
+        return mapper.map(repository.getReferenceById(id));
     }
 
     @Override
-    public boolean deleteById(int id) {
-        return studentRepository.deleteById(id);
+    public void deleteById(int id){ repository.deleteById(id);
     }
 
     @Override
     public List<StudentDto> findAll() {
-        return studentRepository.findAll().stream()
-                .map(studentDtomapper::map)
+        return repository.findAll().stream()
+                .map(mapper::map)
                 .collect(toList());
 
     }
 
     @Override
-    public StudentDto save(Student student) {
-        return studentDtomapper.map(studentRepository.save(student));
-    }
-    @Override
-    public List<StudentDto> findByFacultyId(int facultyId) {
-        return studentRepository.findByFacultyId(facultyId).stream()
-                .map(studentDtomapper::map)
-                .collect(toList());
-    }
-    public static StudentServiceImpl getInstance(){return INSTANCE;}
-
-    public void setStudentRepository(StudentRepositoryImpl studentRepository) {
-        this.studentRepository = studentRepository;
+    public StudentDto save(StudentDto student) {
+        return mapper.map(repository.save(mapper.map(student)));
     }
 }

@@ -1,51 +1,49 @@
 package org.ssemchenko.restservice.service.impl;
 
-import org.ssemchenko.restservice.model.Faculty;
-import org.ssemchenko.restservice.repository.impl.FacultyRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.ssemchenko.restservice.repository.FacultyRepository;
 import org.ssemchenko.restservice.service.FacultyService;
-import org.ssemchenko.restservice.servlet.dto.FacultyDto;
-import org.ssemchenko.restservice.servlet.mapper.FacultyDtomapperImpl;
+import org.ssemchenko.restservice.service.dto.FacultyDto;
+import org.ssemchenko.restservice.service.mapper.FacultyDtomapper;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
+@Transactional
 public class FacultyServiceImpl implements FacultyService {
-    private FacultyRepositoryImpl facultyRepository = FacultyRepositoryImpl.getInstance();
-    private final FacultyDtomapperImpl facultyDtomapper = new FacultyDtomapperImpl();
-    private static final FacultyServiceImpl INSTANCE = new FacultyServiceImpl();
+    private final FacultyRepository repository;
+    private final FacultyDtomapper mapper;
 
-    private FacultyServiceImpl() {
+    @Autowired
+    public FacultyServiceImpl(FacultyRepository repository, FacultyDtomapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
-
 
     @Override
     public FacultyDto findById(int id) {
-        return facultyDtomapper.map(facultyRepository.findById(id));
+        return mapper.map(repository.getReferenceById(id));
     }
 
     @Override
-    public boolean deleteById(int id) {
-        return facultyRepository.deleteById(id);
+    public void deleteById(int id) {
+        repository.deleteById(id);
     }
 
     @Override
     public List<FacultyDto> findAll() {
-        return facultyRepository.findAll().stream()
-                .map(facultyDtomapper::map)
+        return repository.findAll().stream()
+                .map(mapper::map)
                 .collect(toList());
     }
 
     @Override
-    public FacultyDto save(Faculty faculty) {
-        return facultyDtomapper.map(facultyRepository.save(faculty));
+    public FacultyDto save(FacultyDto faculty) {
+        return mapper.map(repository.save(mapper.map(faculty)));
     }
 
-    public static FacultyServiceImpl getInstance(){
-        return INSTANCE;
-    }
-
-    public void setFacultyRepository(FacultyRepositoryImpl facultyRepository) {
-        this.facultyRepository = facultyRepository;
-    }
 }

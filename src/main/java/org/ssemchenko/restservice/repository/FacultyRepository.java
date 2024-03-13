@@ -1,8 +1,9 @@
 package org.ssemchenko.restservice.repository;
 
-import org.ssemchenko.restservice.model.Faculty;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.ssemchenko.restservice.entity.Faculty;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-public interface FacultyRepository extends Repository<Faculty, Integer> {
+@Repository
+public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
 }
